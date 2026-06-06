@@ -66,8 +66,120 @@ The basket measures the average carry-adjusted performance of the entire deliver
 | Repo        | Financing rate      |
 
 ---
+# Core Formulas
 
-## Core Formulas
+## 1. Carry Spread
+
+For each bond:
+
+Spread = Yield − Repo
+
+Where:
+
+* Yield = Bond Yield
+* Repo = Financing Rate
+
+---
+
+## 2. Projected Total Return Value
+
+The model assumes continuous reinvestment of carry:
+
+ProjTRValue = Dirty × e^((Yield − Repo) × Days / 360)
+
+Where:
+
+* Dirty = Current Dirty Price
+* Yield = Bond Yield
+* Repo = Financing Rate
+* Days = Holding Period
+* e = Continuous Compounding Constant
+
+---
+
+## 3. Starting Basket Value
+
+The equal-weight basket starts as:
+
+Basket₀ = (Σ Dirtyᵢ) / N
+
+Where:
+
+* Dirtyᵢ = Dirty Price of Bond i
+* N = Number of Bonds in Basket
+
+---
+
+## 4. Projected Basket Value
+
+The basket value is the equal-weight average of all projected bond values:
+
+Basketₜ = (Σ ProjTRValueᵢ) / N
+
+Where:
+
+* ProjTRValueᵢ = Projected Total Return Value of Bond i
+* N = Number of Bonds in Basket
+
+---
+
+## 5. Basket Index
+
+The basket is normalized to the initial CTD dirty price:
+
+Basket Index = CTD₀ × (Basketₜ / Basket₀)
+
+Where:
+
+* CTD₀ = Initial CTD Dirty Price
+* Basket₀ = Initial Basket Value
+* Basketₜ = Projected Basket Value
+
+---
+
+## 6. CTD Index
+
+The CTD compounds independently using its own financing spread:
+
+CTD Index = CTD₀ × e^((YieldCTD − RepoCTD) × Days / 360)
+
+Where:
+
+* CTD₀ = Initial CTD Dirty Price
+* YieldCTD = CTD Yield
+* RepoCTD = CTD Financing Rate
+
+---
+
+## 7. Relative Value Basis
+
+The relative value spread between the CTD and the basket is:
+
+Basis = CTD Index − Basket Index
+
+Interpretation:
+
+* Basis > 0 → CTD outperforming basket
+* Basis = 0 → CTD matching basket
+* Basis < 0 → Basket outperforming CTD
+
+---
+
+## 8. Equal-Weight Basket Spread
+
+The average financing spread of the basket is:
+
+Basket Spread = (Σ (Yieldᵢ − Repoᵢ)) / N
+
+Where:
+
+* Yieldᵢ = Yield of Bond i
+* Repoᵢ = Repo Rate of Bond i
+* N = Number of Bonds in Basket
+
+This represents the average financing advantage of the delivery basket.
+
+## Core Formulas (syntax for computers and nerds)
 
 ### Carry Spread
 
